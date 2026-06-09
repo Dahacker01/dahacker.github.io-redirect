@@ -1,12 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0; url=https://example.com">
-  <title>Redirecting...</title>
-</head>
+
 <body>
-  <p>Redirecting...</p>
+    
+
+    <script>
+        fetch('urls.txt?t=' + Date.now())
+            .then(response => response.text())
+            .then(text => {
+                const urls = text
+                    .split('\n')
+                    .map(url => url.trim())
+                    .filter(url => url.length > 0);
+
+                if (urls.length === 0) {
+                    document.body.innerHTML = '<p>No URLs configured.</p>';
+                    return;
+                }
+
+                const randomUrl =
+                    urls[Math.floor(Math.random() * urls.length)];
+
+                window.location.replace(randomUrl);
+            })
+            .catch(error => {
+                document.body.innerHTML =
+                    '<p>Error loading destinations.</p>';
+                console.error(error);
+            });
+    </script>
 </body>
 </html>
-
